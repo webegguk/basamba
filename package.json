@@ -1,0 +1,24 @@
+{
+  "name": "basamba",
+  "version": "1.0.0",
+  "description": "Learning in depth creation of an express API and key Auth.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webegguk/basamba.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/webegguk/basamba/issues"
+  },
+  "homepage": "https://github.com/webegguk/basamba#readme",
+  "dependencies": {
+    "auth0-api-jwt-rsa-validation": "0.0.1",
+    "express": "^4.16.2",
+    "express-jwt": "^5.3.0"
+  }
+}

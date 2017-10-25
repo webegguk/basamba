@@ -4,6 +4,80 @@ var app = express();
 var jwt = require('express-jwt');
 var rsaValidation = require('auth0-api-jwt-rsa-validation');
 
+// We’ll create a middleware function to validate the access token when our API is called
+// Note that the audience field is the identifier you gave to your API.
+var jwtCheck = jwt({
+    secret: rsaValidation(),
+    algorithms: ['RS256'],
+    issuer: "https://webegg.eu.auth0.com/",
+    audience: 'https://movieanalyst.com'
+});
+
+
+var guard = function(req, res, next){
+    console.log(req.user);
+    switch(req.path){
+        case '/movies' : {
+            var permissions = ['general'];
+            for(var i = 0; i < permissions.length; i++){
+                if(req.user.scope.includes(permissions[i])){
+                    next();
+                } else {
+                    res.send(403, {message:'Forbidden'});
+                }
+            }
+            break;
+        }
+        case '/reviewers': {
+            var permissions = ['general'];
+            for(var i = 0; i < permissions.length; i++){
+                if(req.user.scope.includes(permissions[i])){
+                    next();
+                } else {
+                    res.send(403, {message:'Forbidden'});
+                }
+            }
+            break;
+        }
+        case '/publications': {
+            var permissions = ['general'];
+            for(var i = 0; i < permissions.length; i++){
+                if(req.user.scope.includes(permissions[i])){
+                    next();
+                } else {
+                    res.send(403, {message:'Forbidden'});
+                }
+            }
+            break;
+        }
+        case '/pending': {
+            var permissions = ['admin'];
+            console.log(req.user.scope);
+            for(var i = 0; i < permissions.length; i++){
+                if(req.user.scope.includes(permissions[i])){
+                    next();
+                } else {
+                    res.send(403, {message:'Forbidden'});
+                }
+            }
+            break;
+        }
+    }
+};
+
+
+// Enable the use of the jwtCheck middleware in all of our routes
+app.use(jwtCheck);
+
+// If we do not get the correct credentials, we’ll return an appropriate message
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).json({message:'Missing or invalid token'});
+    }
+});
+
+app.use(guard);
+
 // Implement the movies API endpoint
 app.get('/movies', function(req, res){
     // Get a list of movies and their review scores

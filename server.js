@@ -14,6 +14,7 @@ var jwtCheck = jwt({
 });
 
 
+
 var guard = function(req, res, next){
     console.log(req.user);
     switch(req.path){
@@ -143,4 +144,4 @@ app.get('/pending', function(req, res){
 })
 
 // Launch our API Server and have it listen on port 8080.
-app.listen(8081);
+app.listen(8080);

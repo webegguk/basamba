@@ -1,24 +1,26 @@
 {
-  "name": "basamba",
-  "version": "1.0.0",
-  "description": "Learning in depth creation of an express API and key Auth.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/webegguk/basamba.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/webegguk/basamba/issues"
-  },
-  "homepage": "https://github.com/webegguk/basamba#readme",
-  "dependencies": {
+  "name": "deals",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
     "auth0-api-jwt-rsa-validation": "0.0.1",
     "express": "^4.16.2",
-    "express-jwt": "^5.3.0"
+    "express-jwt": "^5.3.0",
+    "react-scripts": "0.8.5"
+  },
+  "dependencies": {
+    "auth0-js": "^8.5.0",
+    "auth0-lock": "^10.11.0",
+    "axios": "^0.15.3",
+    "jwt-decode": "^2.1.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^3.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   }
 }

@@ -9,8 +9,8 @@ var rsaValidation = require('auth0-api-jwt-rsa-validation');
 var jwtCheck = jwt({
     secret: rsaValidation(),
     algorithms: ['RS256'],
-    issuer: "https://webegg.eu.auth0.com/",
-    audience: 'https://movieanalyst.com'
+    issuer: "https://webegg.eu.auth0.com",
+    audience: 'http://movieanalyst.com'
 });
 
 

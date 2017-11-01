@@ -1,19 +1,15 @@
-// Get our dependencies
 var express = require('express');
 var app = express();
 var jwt = require('express-jwt');
 var rsaValidation = require('auth0-api-jwt-rsa-validation');
 
-// We’ll create a middleware function to validate the access token when our API is called
-// Note that the audience field is the identifier you gave to your API.
+console.log(rsaValidation());
 var jwtCheck = jwt({
     secret: rsaValidation(),
     algorithms: ['RS256'],
-    issuer: "https://webegg.eu.auth0.com",
+    issuer: "https://webegg.eu.auth0.com/",
     audience: 'http://movieanalyst.com'
 });
-
-
 
 var guard = function(req, res, next){
     console.log(req.user);
@@ -65,23 +61,16 @@ var guard = function(req, res, next){
         }
     }
 };
-
-
-// Enable the use of the jwtCheck middleware in all of our routes
 app.use(jwtCheck);
-
-// If we do not get the correct credentials, we’ll return an appropriate message
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         res.status(401).json({message:'Missing or invalid token'});
     }
 });
-
 app.use(guard);
 
-// Implement the movies API endpoint
+
 app.get('/movies', function(req, res){
-    // Get a list of movies and their review scores
     var movies = [
         {title : 'Suicide Squad', release: '2016', score: 8, reviewer: 'Robert Smith', publication : 'The Daily Reviewer'},
         {title : 'Batman vs. Superman', release : '2016', score: 6, reviewer: 'Chris Harris', publication : 'International Movie Critic'},
@@ -92,13 +81,10 @@ app.get('/movies', function(req, res){
         {title : 'Guardians of the Galaxy', release : '2014', score: 10, reviewer: 'Anthony Miller', publication : 'ComicBookHero.com'},
     ]
 
-    // Send the response as a JSON array
     res.json(movies);
 })
 
-// Implement the reviewers API endpoint
 app.get('/reviewers', function(req, res){
-    // Get a list of all of our reviewers
     var authors = [
         {name : 'Robert Smith', publication : 'The Daily Reviewer', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/angelcolberg/128.jpg'},
         {name: 'Chris Harris', publication : 'International Movie Critic', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/bungiwan/128.jpg'},
@@ -109,13 +95,10 @@ app.get('/reviewers', function(req, res){
         {name: 'Anthony Miller', publication : 'ComicBookHero.com', avatar : 'https://s3.amazonaws.com/uifaces/faces/twitter/9lessons/128.jpg'}
     ];
 
-    // Send the list of reviewers as a JSON array
     res.json(authors);
 })
 
-// Implement the publications API endpoint
 app.get('/publications', function(req, res){
-    // Get a list of publications
     var publications = [
         {name : 'The Daily Reviewer', avatar: 'glyphicon-eye-open'},
         {name : 'International Movie Critic', avatar: 'glyphicon-fire'},
@@ -126,22 +109,16 @@ app.get('/publications', function(req, res){
         {name : 'ComicBookHero.com', avatar : 'glyphicon-flash'}
     ];
 
-    // Send the list of publications as a JSON array
     res.json(publications);
 })
 
-// Implement the pending reviews API endpoint
 app.get('/pending', function(req, res){
-    // Get a list of pending movie reviews
     var pending = [
         {title : 'Superman: Homecoming', release: '2017', score: 10, reviewer: 'Chris Harris', publication: 'International Movie Critic'},
         {title : 'Wonder Woman', release: '2017', score: 8, reviewer: 'Martin Thomas', publication : 'TheOne'},
         {title : 'Doctor Strange', release : '2016', score: 7, reviewer: 'Anthony Miller', publication : 'ComicBookHero.com'}
     ]
-
-    // Send the list of pending movie reviews as a JSON array
-    res.send(pending);
+    res.json(pending);
 })
 
-// Launch our API Server and have it listen on port 8080.
 app.listen(8080);
